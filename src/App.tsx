@@ -90,7 +90,7 @@ function App() {
             >
             <option>Select Category</option>
             {incomeCategories.map((category, index) => (
-              <option key={index} value={index + 1}>{category.name}</option>
+              <option key={index} >{category.name}</option>
             ))}
           </Form.Select>
         </Form.Group>

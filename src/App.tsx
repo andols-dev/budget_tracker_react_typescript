@@ -1,9 +1,30 @@
 
+import { useState } from 'react';
 import { Button, Container, Form, Col, Row } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
-  
+  interface IncomeCategory {
+    name: string;
+  }
+  interface ExpenseCategory {
+    name: string;
+  }
+  const incomeCategories: IncomeCategory[] = [
+    { name: 'Salary' },
+    { name: 'Bonus' },
+    { name: 'Other' },
+  ];
+  const expenseCategories: ExpenseCategory[] = [
+    { name: 'Food' },
+    { name: 'Transport' },
+    { name: 'Other' },
+  ];
+  const [selectedIncomeCategory, setSelectedIncomeCategory] = useState<string>(' ');
+
+  const handleIncomeCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedIncomeCategory(event.target.value);
+  };
   return (
     <Container className="mt-5">
       <h1 className="text-center">Budget Tracker</h1>
@@ -26,11 +47,14 @@ function App() {
         
         <Form.Group >
           <Form.Label>Category</Form.Label>
-          <Form.Select aria-label="Default select example">
+          <Form.Select aria-label="Select income category"
+            value={selectedIncomeCategory}
+            onChange={handleIncomeCategoryChange}
+            >
             <option>Select Category</option>
-            <option value="1">Salary</option>
-            <option value="2">Bonus</option>
-            <option value="3">Other</option>
+            {incomeCategories.map((category, index) => (
+              <option key={index} value={index + 1}>{category.name}</option>
+            ))}
           </Form.Select>
         </Form.Group>
 

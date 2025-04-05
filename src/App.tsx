@@ -43,6 +43,9 @@ function App() {
   const [expenseName, setExpenseName] = useState<string>('');
   const [expenseAmount, setExpenseAmount] = useState<string>('');
   const [selectedExpenseCategory, setSelectedExpenseCategory] = useState<string>(' ');
+  const totalIncome = incomeList.reduce((sum, income) => sum + income.amount, 0);
+  const totalExpense = expenseList.reduce((sum, expense) => sum + expense.amount, 0);
+
 
   const [selectedIncomeCategory, setSelectedIncomeCategory] = useState<string>(' ');
 
@@ -84,7 +87,7 @@ function App() {
   const handleExpenseSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const parsedAmount = Number(expenseAmount);
-    const newExpense: Income = {
+    const newExpense: Expense = {
       id: uuid(),
       name: expenseName,
       amount: parsedAmount,
@@ -148,7 +151,9 @@ function App() {
 
         <Form.Group>
           <Form.Label>Expense amount</Form.Label>
-          <Form.Control type="number" placeholder="Enter expense amount" />
+          <Form.Control type="number" placeholder="Enter expense amount" 
+            value={expenseAmount}
+            onChange={handleExpenseAmountChange}/>
         </Form.Group>
         <Form.Group >
           <Form.Label>Category</Form.Label>
@@ -198,11 +203,11 @@ function App() {
         <Row>
           <Col md={6} className="mb-4">
           <h1>Total Income</h1>
-          <p>6000</p>
+          <p>{totalIncome}</p>
           </Col>
           <Col md={6} className="mb-4">
           <h1>Total Expense</h1>
-          <p>300</p>
+          <p>{totalExpense}</p>
           </Col>
         </Row>
         

@@ -1,54 +1,21 @@
-# React + TypeScript + Vite
+# Budget Tracker App 📊💰
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Budget tracker application built using React, TypeScript, and React-Bootstrap. This app allows users to manage their income and expenses, view detailed lists, and calculate the total income and expenses.
 
-Currently, two official plugins are available:
+## Features ✨
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Income Management** 💵: Add, view, and categorize your income.
+- **Expense Management** 🛒: Add, view, and categorize your expenses.
+- **Income and Expense Lists** 📋: Display the list of all added incomes and expenses.
+- **Total Income and Expenses** 📊: Dynamically calculate and display the total income and total expenses.
+- **Responsive Design** 📱: The app is mobile-friendly and adapts to different screen sizes using React-Bootstrap.
 
-## Expanding the ESLint configuration
+## Tech Stack 🚀
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React** - A JavaScript library for building user interfaces.
+- **TypeScript** - A superset of JavaScript that adds static typing.
+- **React-Bootstrap** - A popular React UI framework that provides Bootstrap components as React components.
+- **uuid** - A library to generate unique IDs for income and expense entries.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```

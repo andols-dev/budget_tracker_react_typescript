@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import { Button, Container, Form, Col, Row } from 'react-bootstrap'
+import { v4 as uuid } from 'uuid';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -10,20 +11,56 @@ function App() {
   interface ExpenseCategory {
     name: string;
   }
+  interface Income {
+    id: string;
+    name: string;
+    amount: number;
+    category: string;
+  }
   const incomeCategories: IncomeCategory[] = [
     { name: 'Salary' },
     { name: 'Bonus' },
     { name: 'Other' },
+    { name: 'Investment' },
+    { name: 'Freelancing' },
+   
   ];
   const expenseCategories: ExpenseCategory[] = [
     { name: 'Food' },
     { name: 'Transport' },
     { name: 'Other' },
   ];
+  const [incomeList, setIncomeList] = useState<Income[]>([]);
+  const [incomeName, setIncomeName] = useState<string>('');
+  const [incomeAmount, setIncomeAmount] = useState<string>('');
+
   const [selectedIncomeCategory, setSelectedIncomeCategory] = useState<string>(' ');
 
   const handleIncomeCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedIncomeCategory(event.target.value);
+  };
+  const handleIncomeNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIncomeName(event.target.value);
+  };
+  const handleIncomeAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIncomeAmount(event.target.value);
+  };
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const parsedAmount = Number(incomeAmount); 
+    const newIncome: Income = {
+      id: uuid(),
+      name: incomeName,
+      amount: parsedAmount,
+      category: selectedIncomeCategory,
+
+    };
+    setIncomeList([...incomeList, newIncome]);
+    console.log('New Income:', newIncome);
+    // Reset form fields
+    setIncomeName('');
+    setIncomeAmount('');
+    setSelectedIncomeCategory(' ');
   };
   return (
     <Container className="mt-5">
@@ -34,15 +71,15 @@ function App() {
       <Col md={6} className="mb-4">
       <h1>Income</h1>
 
-      <Form>
+      <Form onSubmit={onSubmit}>
         <Form.Group >
           <Form.Label>Income Name</Form.Label>
-          <Form.Control type="text" placeholder=" Enter income" />
+          <Form.Control type="text" placeholder=" Enter income" value={incomeName} onChange={handleIncomeNameChange}/>
         </Form.Group>
 
         <Form.Group >
           <Form.Label>Income amount</Form.Label>
-          <Form.Control type="number" placeholder="Enter income amount" />
+          <Form.Control type="number" placeholder="Enter income amount" value={incomeAmount} onChange={handleIncomeAmountChange} />
         </Form.Group>
         
         <Form.Group >
@@ -97,8 +134,11 @@ function App() {
           <Col md={6} className="mb-4">
           <h1>Income List</h1>
           <ul>
-            <li>Salary: 5000</li>
-            <li>Bonus: 1000</li>
+            {incomeList.map((income) => (
+              <li key={income.id}>
+                {income.name} - {income.amount} - {income.category}
+              </li>
+            ))}
           </ul>
           </Col>
           <Col md={6} className="mb-4">

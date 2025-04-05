@@ -17,6 +17,12 @@ function App() {
     amount: number;
     category: string;
   }
+  interface Expense {
+    id: string;
+    name: string;
+    amount: number;
+    category: string;
+  }
   const incomeCategories: IncomeCategory[] = [
     { name: 'Salary' },
     { name: 'Bonus' },
@@ -31,8 +37,12 @@ function App() {
     { name: 'Other' },
   ];
   const [incomeList, setIncomeList] = useState<Income[]>([]);
+  const [expenseList, setExpenseList] = useState<Expense[]>([]);
   const [incomeName, setIncomeName] = useState<string>('');
   const [incomeAmount, setIncomeAmount] = useState<string>('');
+  const [expenseName, setExpenseName] = useState<string>('');
+  const [expenseAmount, setExpenseAmount] = useState<string>('');
+  const [selectedExpenseCategory, setSelectedExpenseCategory] = useState<string>(' ');
 
   const [selectedIncomeCategory, setSelectedIncomeCategory] = useState<string>(' ');
 
@@ -44,6 +54,15 @@ function App() {
   };
   const handleIncomeAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIncomeAmount(event.target.value);
+  };
+  const handleExpenseNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setExpenseName(event.target.value);
+  };
+  const handleExpenseAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setExpenseAmount(event.target.value);
+  };
+  const handleExpenseCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedExpenseCategory(event.target.value);
   };
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -61,6 +80,22 @@ function App() {
     setIncomeName('');
     setIncomeAmount('');
     setSelectedIncomeCategory(' ');
+  };
+  const handleExpenseSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const parsedAmount = Number(expenseAmount);
+    const newExpense: Income = {
+      id: uuid(),
+      name: expenseName,
+      amount: parsedAmount,
+      category: selectedExpenseCategory,
+    };
+    setExpenseList([...expenseList, newExpense]);
+    console.log('New Expense:', newExpense);
+    // Reset form fields
+    setExpenseName('');
+    setExpenseAmount('');
+    setSelectedExpenseCategory(' ');
   };
   return (
     <Container className="mt-5">
@@ -102,10 +137,13 @@ function App() {
       </Col>
       <Col md={6} className="mb-4">
       <h1>Expense</h1>
-      <Form>
+      <Form onSubmit={handleExpenseSubmit}>
         <Form.Group>
           <Form.Label>Expense name</Form.Label>
-          <Form.Control type="text" placeholder="Enter expense" />
+          <Form.Control type="text" 
+          value={expenseName} 
+          onChange={handleExpenseNameChange}  
+          placeholder="Enter expense" />
         </Form.Group>
 
         <Form.Group>
@@ -114,11 +152,15 @@ function App() {
         </Form.Group>
         <Form.Group >
           <Form.Label>Category</Form.Label>
-          <Form.Select aria-label="Default select example">
+          <Form.Select 
+            aria-label="Select expense category"
+            value={selectedExpenseCategory}
+            onChange={handleExpenseCategoryChange}
+          >
             <option>Select Category</option>
-            <option value="1">Food</option>
-            <option value="2">Transport</option>
-            <option value="3">Other</option>
+            {expenseCategories.map((category, index) => (
+              <option key={index} >{category.name}</option>
+            ))}
           </Form.Select>
         </Form.Group>
 
@@ -144,8 +186,11 @@ function App() {
           <Col md={6} className="mb-4">
           <h1>Expense List</h1>
           <ul>
-            <li>Food: 200</li>
-            <li>Transport: 100</li>
+            {expenseList.map((expense) => (
+              <li key={expense.id}>
+                {expense.name} - {expense.amount} - {expense.category}
+              </li>
+            ))}
           </ul>
           </Col>
         </Row>

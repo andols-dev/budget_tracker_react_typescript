@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Button, Container, Form, Col, Row } from 'react-bootstrap'
 import { v4 as uuid } from 'uuid';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import IncomeVsExpenseChart from './Components/IncomeVsExpenseChart';
 
 function App() {
   interface IncomeCategory {
@@ -67,9 +68,38 @@ function App() {
   const handleExpenseCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedExpenseCategory(event.target.value);
   };
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleIncomeSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const parsedAmount = Number(incomeAmount); 
+
+        // check if expenseName is empty
+        if (incomeName.trim() === '') {
+          alert('Please enter an income name');
+          return; // stop further execution
+        }
+        // check if parsedAmount is empty
+        if (incomeAmount.trim() === '') {
+          alert('Please enter an income amount');
+          return; // stop further execution
+        }
+        // check if parsedAmount is NaN
+        if (isNaN(parsedAmount)) {
+          alert('Please enter a valid income amount');
+          return;
+        }
+        if(Number(incomeName))
+        {
+          alert('Number is not a valid income name');
+        }
+        
+        // check if selectedExpenseCategory is empty
+        if (selectedIncomeCategory.trim() === '' || selectedIncomeCategory === 'Select income category') {
+          alert('Please select a valid income category');
+          return;
+        }
+
+
+  
     const newIncome: Income = {
       id: uuid(),
       name: incomeName,
@@ -87,19 +117,49 @@ function App() {
   const handleExpenseSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const parsedAmount = Number(expenseAmount);
+    
+    // check if expenseName is empty
+    if (expenseName.trim() === '') {
+      alert('Please enter an expense name');
+      return; // stop further execution
+    }
+    // check if parsedAmount is empty
+    if (expenseAmount.trim() === '') {
+      alert('Please enter an expense amount');
+      return; // stop further execution
+    }
+    // check if parsedAmount is NaN
+    if (isNaN(parsedAmount)) {
+      alert('Please enter a valid expense amount');
+      return;
+    }
+    if(Number(expenseName))
+    {
+      alert('Number is not a valid expense name');
+    }
+    
+    // check if selectedExpenseCategory is empty
+    if (selectedExpenseCategory.trim() === '' || selectedExpenseCategory === 'Select expense category') {
+      alert('Please select a valid expense category');
+      return;
+    }
+    
     const newExpense: Expense = {
       id: uuid(),
       name: expenseName,
       amount: parsedAmount,
       category: selectedExpenseCategory,
     };
+    
     setExpenseList([...expenseList, newExpense]);
     console.log('New Expense:', newExpense);
+    
     // Reset form fields
     setExpenseName('');
     setExpenseAmount('');
-    setSelectedExpenseCategory(' ');
+    setSelectedExpenseCategory('');
   };
+  
   return (
     <Container className="mt-5">
       <h1 className="text-center">Budget Tracker</h1>
@@ -109,7 +169,7 @@ function App() {
       <Col md={6} className="mb-4">
       <h1>Income</h1>
 
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={handleIncomeSubmit}>
         <Form.Group >
           <Form.Label>Income Name</Form.Label>
           <Form.Control type="text" placeholder=" Enter income" value={incomeName} onChange={handleIncomeNameChange}/>
@@ -214,9 +274,8 @@ function App() {
         <Row>
           <Col md={12} className="mb-4">
           <h1>Income vs Expense</h1>
-          <div style={{ width: '100%', height: '400px', backgroundColor: '#f0f0f0' }}>
-            <p>Chart will be here</p>
-          </div>
+            <IncomeVsExpenseChart incomeList={incomeList} expenseList={expenseList} />
+            
           </Col>
         </Row>
 

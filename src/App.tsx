@@ -42,12 +42,13 @@ function App() {
     type: 'income' | 'expense';
     amount: string;
     category: string;
+    categoryPlaceHolder: string;
 /*     amount: string;
     category: string;
     categoryPlaceHolder: string;
      */
   }
-  const validateBeforeSubmit = ({name,type,amount,category}:validationParams) => {
+  const validateBeforeSubmit = ({name,type,amount,category, categoryPlaceHolder}:validationParams) => {
     const parsedAmount = Number(amount);
     // check if name is empty
     if (name.trim() === '') {
@@ -70,7 +71,7 @@ function App() {
     }
 
     // check if selectedExpenseCategory is empty
-    if (category.trim() === '' || category === 'Select income category') {
+    if (category.trim() === '' || category === categoryPlaceHolder) {
       alert('Please select a valid income category');
       return;
     } 
@@ -115,6 +116,7 @@ function App() {
       type: 'income',
       amount: incomeAmount,
       category: selectedIncomeCategory,
+      categoryPlaceHolder: 'Select income category'
     });
 
     if (!isValid) {
@@ -142,6 +144,7 @@ function App() {
       type: 'expense',
       amount: expenseAmount,
       category: selectedExpenseCategory,
+      categoryPlaceHolder: "Select expense category"
     });
 
     if (!isValid) {

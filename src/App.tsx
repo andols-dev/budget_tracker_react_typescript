@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Button, Container, Form, Col, Row } from 'react-bootstrap'
+import { Button, Container, Form, Col, Row,ToastContainer, Toast } from 'react-bootstrap'
 import { v4 as uuid } from 'uuid';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import IncomeVsExpenseChart from './Components/IncomeVsExpenseChart';
@@ -48,6 +48,9 @@ function App() {
     categoryPlaceHolder: string;
      */
   }
+
+  const [showToast,setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
   const validateBeforeSubmit = ({name,type,amount,category, categoryPlaceHolder}:validationParams) => {
     const parsedAmount = Number(amount);
     // check if name is empty
@@ -132,6 +135,8 @@ function App() {
     };
     setIncomeList([...incomeList, newIncome]);
     console.log('New Income:', newIncome);
+    setToastMessage(`New Income added ${newIncome.name}`);
+    setShowToast(true);
     // Reset form fields
     setIncomeName('');
     setIncomeAmount('');
@@ -160,6 +165,8 @@ function App() {
     };
     setExpenseList([...expenseList, newExpense]);
     console.log('New Expense:', newExpense);
+    setToastMessage(`New expense added: ${newExpense.name}`);
+    setShowToast(true);
     // Reset form fields
     setExpenseName('');
     setExpenseAmount('');
@@ -243,6 +250,11 @@ function App() {
       </Form>
         </Col>
         </Row>
+        <ToastContainer position="top-end" className="p-3">
+  <Toast show={showToast} className="bg-success text-white" onClose={() => setShowToast(false)} delay={3000} autohide>
+    <Toast.Body>{toastMessage}</Toast.Body>
+  </Toast>
+</ToastContainer>
 
         <Row>
           <Col md={6} className="mb-4">

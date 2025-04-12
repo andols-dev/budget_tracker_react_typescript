@@ -37,6 +37,45 @@ function App() {
     { name: 'Transport' },
     { name: 'Other' },
   ];
+  type validationParams = {
+    name: string;
+    type: 'income' | 'expense';
+    amount: string;
+    category: string;
+/*     amount: string;
+    category: string;
+    categoryPlaceHolder: string;
+     */
+  }
+  const validateBeforeSubmit = ({name,type,amount,category}:validationParams) => {
+    const parsedAmount = Number(amount);
+    // check if name is empty
+    if (name.trim() === '') {
+      alert(`Please enter a ${type} name`); 
+      return false;
+    }
+    if (amount.trim() === '') {
+      alert(`Please enter a ${type} amount`); 
+      return false;
+    }
+    
+    // check if parsedAmount is NaN
+    if (isNaN(parsedAmount)) {
+      alert(`Please enter a valid ${type} amount`);
+      return;
+    }
+    if(Number(name))
+    {
+      alert(`Number is not a valid ${type} name`);
+    }
+
+    // check if selectedExpenseCategory is empty
+    if (category.trim() === '' || category === 'Select income category') {
+      alert('Please select a valid income category');
+      return;
+    } 
+    return true;
+  }
   const [incomeList, setIncomeList] = useState<Income[]>([]);
   const [expenseList, setExpenseList] = useState<Expense[]>([]);
   const [incomeName, setIncomeName] = useState<string>('');
@@ -71,40 +110,21 @@ function App() {
   
   const handleIncomeSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const parsedAmount = Number(incomeAmount); 
+    const isValid = validateBeforeSubmit({
+      name: incomeName,
+      type: 'income',
+      amount: incomeAmount,
+      category: selectedIncomeCategory,
+    });
 
-        // check if expenseName is empty
-        if (incomeName.trim() === '') {
-          alert('Please enter an income name');
-          return; // stop further execution
-        }
-        // check if parsedAmount is empty
-        if (incomeAmount.trim() === '') {
-          alert('Please enter an income amount');
-          return; // stop further execution
-        }
-        // check if parsedAmount is NaN
-        if (isNaN(parsedAmount)) {
-          alert('Please enter a valid income amount');
-          return;
-        }
-        if(Number(incomeName))
-        {
-          alert('Number is not a valid income name');
-        }
-        
-        // check if selectedExpenseCategory is empty
-        if (selectedIncomeCategory.trim() === '' || selectedIncomeCategory === 'Select income category') {
-          alert('Please select a valid income category');
-          return;
-        }
+    if (!isValid) {
+      return;
+    }
 
-
-  
     const newIncome: Income = {
       id: uuid(),
       name: incomeName,
-      amount: parsedAmount,
+      amount: Number(incomeAmount),
       category: selectedIncomeCategory,
 
     };
@@ -117,49 +137,32 @@ function App() {
   };
   const handleExpenseSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const parsedAmount = Number(expenseAmount);
-    
-    // check if expenseName is empty
-    if (expenseName.trim() === '') {
-      alert('Please enter an expense name');
-      return; // stop further execution
-    }
-    // check if parsedAmount is empty
-    if (expenseAmount.trim() === '') {
-      alert('Please enter an expense amount');
-      return; // stop further execution
-    }
-    // check if parsedAmount is NaN
-    if (isNaN(parsedAmount)) {
-      alert('Please enter a valid expense amount');
+    const isValid = validateBeforeSubmit({
+      name: expenseName,
+      type: 'expense',
+      amount: expenseAmount,
+      category: selectedExpenseCategory,
+    });
+
+    if (!isValid) {
       return;
     }
-    if(Number(expenseName))
-    {
-      alert('Number is not a valid expense name');
-    }
-    
-    // check if selectedExpenseCategory is empty
-    if (selectedExpenseCategory.trim() === '' || selectedExpenseCategory === 'Select expense category') {
-      alert('Please select a valid expense category');
-      return;
-    }
-    
+
     const newExpense: Expense = {
       id: uuid(),
       name: expenseName,
-      amount: parsedAmount,
+      amount: Number(expenseAmount),
       category: selectedExpenseCategory,
+
     };
-    
     setExpenseList([...expenseList, newExpense]);
     console.log('New Expense:', newExpense);
-    
     // Reset form fields
     setExpenseName('');
     setExpenseAmount('');
-    setSelectedExpenseCategory('');
+    setSelectedExpenseCategory(' ');
   };
+
   
   return (
     <Container className="mt-5">

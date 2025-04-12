@@ -68,6 +68,7 @@ function App() {
   const handleExpenseCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedExpenseCategory(event.target.value);
   };
+  
   const handleIncomeSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const parsedAmount = Number(incomeAmount); 

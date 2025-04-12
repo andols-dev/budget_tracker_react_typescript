@@ -17,5 +17,5 @@ Budget tracker application built using React, TypeScript, and React-Bootstrap. T
 - **TypeScript** - A superset of JavaScript that adds static typing.
 - **React-Bootstrap** - A popular React UI framework that provides Bootstrap components as React components.
 - **uuid** - A library to generate unique IDs for income and expense entries.
-- **React-Bootstrap Toast** - Used for showing success notifications to the user.
+- **Bootstrap Toast** - Used for showing success notifications to the user.
 

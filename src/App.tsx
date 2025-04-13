@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Container, Form, Col, Row,ToastContainer, Toast } from 'react-bootstrap'
 import { v4 as uuid } from 'uuid';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -81,8 +81,22 @@ function App() {
     } 
     return true;
   }
-  const [incomeList, setIncomeList] = useState<Income[]>([]);
-  const [expenseList, setExpenseList] = useState<Expense[]>([]);
+  const [incomeList, setIncomeList] = useState<Income[]>(() => {
+    const savedIncomes = localStorage.getItem('incomeList');
+    return savedIncomes ? JSON.parse(savedIncomes) : [];
+  });
+  const [expenseList, setExpenseList] = useState<Expense[]>(() => {
+    const savedExpenses = localStorage.getItem('expenseList');
+    return savedExpenses ? JSON.parse(savedExpenses) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('incomeList', JSON.stringify(incomeList));
+  }, [incomeList]);
+
+  useEffect(() => {
+    localStorage.setItem('expenseList', JSON.stringify(expenseList));
+  },[expenseList]);
   const [incomeName, setIncomeName] = useState<string>('');
   const [incomeAmount, setIncomeAmount] = useState<string>('');
   const [expenseName, setExpenseName] = useState<string>('');

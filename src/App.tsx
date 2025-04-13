@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from 'react';
-import { Button, Container, Form, Col, Row,ToastContainer, Toast } from 'react-bootstrap'
+import { Button, Container, Form,  ToastContainer, Toast,Row, Col,Card, ListGroup,Badge } from 'react-bootstrap'
+
 import { v4 as uuid } from 'uuid';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import IncomeVsExpenseChart from './Components/IncomeVsExpenseChart';
@@ -188,7 +189,19 @@ function App() {
     setSelectedExpenseCategory(' ');
   };
 
+  const removeIncome = (id: string) => {
+    const updatedList = incomeList.filter(item => item.id !== id);
+    setIncomeList(updatedList)
+  }
+
+  const removeExpense = (id: string) => {
+    const updatedList = expenseList.filter(item => item.id !== id);
+    setExpenseList(updatedList);
+  }
   
+  const balance = totalIncome - totalExpense;
+
+  const balanceTextColor = balance > 0 ? 'text-success' : balance < 0 ? 'text-danger' : 'text-secondary';
   return (
     <Container className="mt-5">
       <h1 className="text-center">Budget Tracker</h1>
@@ -271,39 +284,94 @@ function App() {
   </Toast>
 </ToastContainer>
 
-        <Row>
-          <Col md={6} className="mb-4">
-          <h1>Income List</h1>
-          <ul>
-            {incomeList.map((income) => (
-              <li key={income.id}>
-                {income.name} - {income.amount} - {income.category}
-              </li>
-            ))}
-          </ul>
-          </Col>
-          <Col md={6} className="mb-4">
-          <h1>Expense List</h1>
-          <ul>
-            {expenseList.map((expense) => (
-              <li key={expense.id}>
-                {expense.name} - {expense.amount} - {expense.category}
-              </li>
-            ))}
-          </ul>
-          </Col>
-        </Row>
+<Row>
+  <Col md={6} className="mb-4">
+    <h2>Income List</h2>
+    <ListGroup>
+      {incomeList.map((income) => (
+        <ListGroup.Item
+          key={income.id}
+          className="d-flex justify-content-between align-items-center"
+        >
+          <div>
+            <strong>{income.name}</strong> - {income.amount}{' '}
+            <Badge bg="success" className="ms-2">
+              {income.category}
+            </Badge>
+          </div>
+          <Button
+            variant="outline-danger"
+            size="sm"
+            onClick={() => removeIncome(income.id)}
+          >
+            Remove
+          </Button>
+        </ListGroup.Item>
+      ))}
+    </ListGroup>
+  </Col>
 
-        <Row>
-          <Col md={6} className="mb-4">
-          <h1>Total Income</h1>
-          <p>{totalIncome}</p>
-          </Col>
-          <Col md={6} className="mb-4">
-          <h1>Total Expense</h1>
-          <p>{totalExpense}</p>
-          </Col>
-        </Row>
+  <Col md={6} className="mb-4">
+    <h2>Expense List</h2>
+    <ListGroup>
+      {expenseList.map((expense) => (
+        <ListGroup.Item
+          key={expense.id}
+          className="d-flex justify-content-between align-items-center"
+        >
+          <div>
+            <strong>{expense.name}</strong> - {expense.amount}{' '}
+            <Badge bg="danger" className="ms-2">
+              {expense.category}
+            </Badge>
+          </div>
+          <Button
+            variant="outline-danger"
+            size="sm"
+            onClick={() => removeExpense(expense.id)}
+          >
+            Remove
+          </Button>
+        </ListGroup.Item>
+      ))}
+    </ListGroup>
+  </Col>
+</Row>
+
+
+<Row className="mb-4">
+  <Col md={6}>
+    <Card className="shadow-sm border-success">
+      <Card.Body>
+        <Card.Title className="text-success">Total Income</Card.Title>
+        <Card.Text className="fs-4 fw-bold">
+          {totalIncome} Sek
+        </Card.Text>
+      </Card.Body>
+    </Card>
+  </Col>
+
+  <Col md={6}>
+    <Card className="shadow-sm border-danger">
+      <Card.Body>
+        <Card.Title className="text-danger">Total Expense</Card.Title>
+        <Card.Text className="fs-4 fw-bold">
+          {totalExpense} Sek
+        </Card.Text>
+      </Card.Body>
+    </Card>
+  </Col>
+  <Col md={12} className="mt-4">
+    <Card className="shadow-sm border-0 bg-light">
+      <Card.Body>
+        <Card.Title>Balance</Card.Title>
+        <Card.Text className={`fs-3 fw-bold ${balanceTextColor}`}>
+          {balance}
+        </Card.Text>
+      </Card.Body>
+    </Card>
+  </Col>
+</Row>
         
         <Row>
           <Col md={12} className="mb-4">

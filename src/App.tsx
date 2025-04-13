@@ -66,17 +66,18 @@ function App() {
     // check if parsedAmount is NaN
     if (isNaN(parsedAmount)) {
       alert(`Please enter a valid ${type} amount`);
-      return;
+      return false;
     }
     if(Number(name))
     {
       alert(`Number is not a valid ${type} name`);
+      return false;
     }
 
     // check if selectedExpenseCategory is empty
     if (category.trim() === '' || category === categoryPlaceHolder) {
       alert('Please select a valid income category');
-      return;
+      return false;
     } 
     return true;
   }

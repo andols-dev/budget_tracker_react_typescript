@@ -6,7 +6,7 @@ Budget tracker application built using React, TypeScript, and React-Bootstrap. T
 
 
 🌐 **Live-demo:**  
-👉 [Öppna appen på GitHub Pages](https://andols-dev.github.io/budget_tracker_react_typescript)
+👉 [Open app on GitHub Pages](https://andols-dev.github.io/budget_tracker_react_typescript)
 
 ## Features ✨
 

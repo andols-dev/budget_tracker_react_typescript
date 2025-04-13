@@ -2,6 +2,12 @@
 
 Budget tracker application built using React, TypeScript, and React-Bootstrap. This app allows users to manage their income and expenses, view detailed lists, and calculate the total income and expenses.
 
+[![GitHub Pages](https://img.shields.io/badge/demo-online-brightgreen)](https://andols-dev.github.io/budget_tracker_react_typescript)
+
+
+🌐 **Live-demo:**  
+👉 [Öppna appen på GitHub Pages](https://andols-dev.github.io/budget_tracker_react_typescript)
+
 ## Features ✨
 
 - **Income Management** 💵: Add, view, and categorize your income.
